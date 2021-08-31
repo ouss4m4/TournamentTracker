@@ -22,9 +22,9 @@ namespace TrackerLibrary.Models
         public PrizeModel(string placeName, string placeNumber, string prizeAmount, string prizePerecentage)
         {
             PlaceName = placeName;
-            int.TryParse(placeNumber, out int placeNumberValue);
-            decimal.TryParse(prizeAmount, out decimal prizeAmountValue);
-            double.TryParse(prizePerecentage, out double prizePercentageValue);
+            PlaceNumber= int.Parse(placeNumber);
+            PrizeAmount = decimal.Parse(prizeAmount);
+            PrizePercentage = double.Parse(prizePerecentage);
 
 
         }

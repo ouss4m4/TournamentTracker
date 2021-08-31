@@ -18,8 +18,10 @@ namespace TrackerLibrary
             if (db == DatabaseType.Sql)
             {
                 SqlConnector sql = new();
-                Connection =sql;
-            } else {
+                Connection = sql;
+            }
+            else
+            {
                 TextConnector txt = new();
                 Connection = txt;
             }
@@ -31,5 +33,6 @@ namespace TrackerLibrary
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
+
     }
 }

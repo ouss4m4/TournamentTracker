@@ -22,12 +22,12 @@ namespace TrackerUI
 
         private void createPrizeButton_Click(object sender, EventArgs e)
         {
-            if (!validateForm())
+            if (!ValidateForm())
             {
                 MessageBox.Show("Invalid form data");
                 return;
             }
-            PrizeModel model = new PrizeModel(placeNameValue.Text, placeNumberValue.Text, prizeAmountValue.Text, PrizePercentageValue.Text);
+            PrizeModel model = new(placeNameValue.Text, placeNumberValue.Text, prizeAmountValue.Text, PrizePercentageValue.Text);
             GlobalConfig.Connection.CreatePrize(model);
             MessageBox.Show($"{model.PlaceName} prize created");
             placeNameValue.Text = "";
@@ -36,7 +36,7 @@ namespace TrackerUI
             PrizePercentageValue.Text = "0";
         }
 
-        private bool validateForm()
+        private bool ValidateForm()
         {
             bool isFormValid = true;
             bool placeNumberValid = int.TryParse(placeNumberValue.Text, out int placeNumber);
