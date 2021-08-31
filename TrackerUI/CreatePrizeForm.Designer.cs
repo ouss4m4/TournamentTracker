@@ -96,6 +96,7 @@ namespace TrackerUI
             this.prizeAmountValue.Name = "prizeAmountValue";
             this.prizeAmountValue.Size = new System.Drawing.Size(293, 33);
             this.prizeAmountValue.TabIndex = 17;
+            this.prizeAmountValue.Text = "0";
             // 
             // prizeAmountLabel
             // 
@@ -114,6 +115,7 @@ namespace TrackerUI
             this.PrizePercentageValue.Name = "PrizePercentageValue";
             this.PrizePercentageValue.Size = new System.Drawing.Size(293, 33);
             this.PrizePercentageValue.TabIndex = 19;
+            this.PrizePercentageValue.Text = "0";
             // 
             // prizePercentageLabel
             // 
@@ -151,6 +153,7 @@ namespace TrackerUI
             this.createPrizeButton.TabIndex = 25;
             this.createPrizeButton.Text = "Create Prize";
             this.createPrizeButton.UseVisualStyleBackColor = true;
+            this.createPrizeButton.Click += new System.EventHandler(this.createPrizeButton_Click);
             // 
             // CreatePrizeForm
             // 
@@ -171,7 +174,7 @@ namespace TrackerUI
             this.Controls.Add(this.createPrizeLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "CreatePrizeForm";
             this.Text = "Create Prize";
             this.ResumeLayout(false);
