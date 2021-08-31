@@ -28,10 +28,7 @@ namespace TrackerUI
                 return;
             }
             PrizeModel model = new PrizeModel(placeNameValue.Text, placeNumberValue.Text, prizeAmountValue.Text, PrizePercentageValue.Text);
-            foreach (IDataConnection db in GlobalConfig.Connections)
-            {
-                db.CreatePrize(model);
-            }
+            GlobalConfig.Connection.CreatePrize(model);
             MessageBox.Show($"{model.PlaceName} prize created");
             placeNameValue.Text = "";
             placeNumberValue.Text = "";
@@ -55,7 +52,7 @@ namespace TrackerUI
 
             bool prizeAmountValid = decimal.TryParse(prizeAmountValue.Text, out decimal prizeAmount);
             bool prizePercentageValid = double.TryParse(PrizePercentageValue.Text, out double prizePercentage);
-            
+
             if (!prizeAmountValid || !prizePercentageValid)
             {
                 return false;
