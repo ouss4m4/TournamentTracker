@@ -47,7 +47,7 @@ namespace TrackerLibrary.DataAccess
             {
 
 
-                using IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments"));
+                using IDbConnection connection = new SqlConnection(GlobalConfig.CnnString("Tournaments"));
                 var p = new DynamicParameters();
                 p.Add("@PlaceNumber", model.PlaceNumber);
                 p.Add("@PlaceName", model.PlaceName);
@@ -65,6 +65,14 @@ namespace TrackerLibrary.DataAccess
                 throw;
             }
 
+        }
+
+        public List<PersonModel> GetPerson_All()
+        {
+            List<PersonModel> output = new();
+            using IDbConnection connection = new SqlConnection(GlobalConfig.CnnString("Tournaments"));
+            output = connection.Query<PersonModel>("spPeople_GetAll").ToList();
+            return output;
         }
     }
 }

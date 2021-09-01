@@ -14,9 +14,26 @@ namespace TrackerUI
 {
     public partial class CreateTeamForm : Form
     {
+        private List<PersonModel> availableMembers = GlobalConfig.Connection.GetPerson_All();
+        private List<PersonModel> selectedTeamMembers = new();
+
+
         public CreateTeamForm()
         {
             InitializeComponent();
+            //CreateSampleData();
+            WireUpList();
+        }
+
+        private void WireUpList()
+        {
+            selectTeamMemberDropDown.DataSource = null;
+            selectTeamMemberDropDown.DataSource = availableMembers;
+            selectTeamMemberDropDown.DisplayMember = "FullName";
+
+            teamMembersListBox.DataSource = null;
+            teamMembersListBox.DataSource = selectedTeamMembers;
+            teamMembersListBox.DisplayMember = "FullName";
         }
 
         private void createMemberButton_Click(object sender, EventArgs e)
@@ -35,13 +52,13 @@ namespace TrackerUI
             member.CellPhoneNumber = cellPhoneValue.Text;
             GlobalConfig.Connection.CreatePerson(member);
             MessageBox.Show($"{member.FirstName} added");
-
+            selectedTeamMembers.Add(member);
             firstNameValue.Text = "";
             lastNameValue.Text = "";
             emailValue.Text = "";
             cellPhoneValue.Text = "";
+            WireUpList();
 
-   
 
         }
 
@@ -64,6 +81,30 @@ namespace TrackerUI
                 return false;
             }
             return true;
+        }
+
+        private void addMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)selectTeamMemberDropDown.SelectedItem;
+            if (p != null)
+            {
+                selectedTeamMembers.Add(p);
+                availableMembers.Remove(p);
+                WireUpList();
+            };
+
+
+        }
+
+        private void deleteSelectedMember_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)teamMembersListBox.SelectedItem;
+            if (p != null)
+            {
+                selectedTeamMembers.Remove(p);
+                availableMembers.Add(p);
+                WireUpList();
+            }
         }
     }
 }

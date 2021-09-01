@@ -95,6 +95,7 @@ namespace TrackerUI
             this.addMemberButton.TabIndex = 17;
             this.addMemberButton.Text = "Add Member";
             this.addMemberButton.UseVisualStyleBackColor = true;
+            this.addMemberButton.Click += new System.EventHandler(this.addMemberButton_Click);
             // 
             // selectTeamMemberDropDown
             // 
@@ -246,6 +247,7 @@ namespace TrackerUI
             this.deleteSelectedMember.TabIndex = 21;
             this.deleteSelectedMember.Text = "Delete";
             this.deleteSelectedMember.UseVisualStyleBackColor = true;
+            this.deleteSelectedMember.Click += new System.EventHandler(this.deleteSelectedMember_Click);
             // 
             // createTeamButton
             // 
