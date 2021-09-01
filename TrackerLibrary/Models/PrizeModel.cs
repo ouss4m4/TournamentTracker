@@ -14,15 +14,12 @@ namespace TrackerLibrary.Models
         public decimal PrizeAmount { get; set; }
         public double PrizePercentage { get; set; }
 
-        public PrizeModel()
-        {
-
-        }
+        public PrizeModel() { }
 
         public PrizeModel(string placeName, string placeNumber, string prizeAmount, string prizePerecentage)
         {
             PlaceName = placeName;
-            PlaceNumber= int.Parse(placeNumber);
+            PlaceNumber = int.Parse(placeNumber);
             PrizeAmount = decimal.Parse(prizeAmount);
             PrizePercentage = double.Parse(prizePerecentage);
 
