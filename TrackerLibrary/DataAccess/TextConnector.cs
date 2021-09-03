@@ -12,7 +12,7 @@ namespace TrackerLibrary.DataAccess
     {
         private const string PrizesFile = "PrizeModels.csv";
         private const string PeopleFile = "PersonModels.csv";
-
+        private const string TeamFile = "TeamModels.csv";
         public PersonModel CreatePerson(PersonModel model)
         {
             List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
@@ -43,10 +43,29 @@ namespace TrackerLibrary.DataAccess
             return model;
         }
 
+
         public List<PersonModel> GetPerson_All()
         {
             return PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
         }
 
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            List<TeamModel> teams = TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
+            int nextId = 1;
+            if (teams.Count > 0)
+            {
+                nextId = teams.OrderByDescending(x => x.id).First().id + 1;
+            }
+            model.id = nextId;
+            teams.Add(model);
+            teams.SaveToTeamFile(TeamFile);
+            return model;
+        }
+
+        public List<TeamModel> GetTeam_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -106,5 +106,42 @@ namespace TrackerUI
                 WireUpList();
             }
         }
+
+        private void createTeamButton_Click(object sender, EventArgs e)
+        {
+            if (!validTeamForm())
+            {
+                MessageBox.Show("Invalid form data");
+                return;
+
+            }
+
+            TeamModel newTeam = new();
+            newTeam.TeamName = teamNameValue.Text;
+            newTeam.TeamMembers = new List<PersonModel>();
+            foreach (PersonModel newMember in selectedTeamMembers)
+            {
+                newTeam.TeamMembers.Add(newMember);
+            }
+
+            GlobalConfig.Connection.CreateTeam(newTeam);
+            teamNameValue.Text = "";
+            MessageBox.Show($"{newTeam.TeamName} Created");
+            this.Close();
+        }
+
+        private bool validTeamForm()
+        {
+            if (teamNameValue.Text.Length <= 0)
+            {
+                return false;
+            }
+            if (selectedTeamMembers.Count <= 0)
+            {
+
+                return false;
+            }
+            return true;
+        }
     }
 }
