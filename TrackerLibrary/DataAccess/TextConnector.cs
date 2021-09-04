@@ -33,10 +33,10 @@ namespace TrackerLibrary.DataAccess
             List<PrizeModel> prizes = PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 
             int nextId = 1;
-            if(prizes.Count > 0)
+            if (prizes.Count > 0)
             {
                 nextId = prizes.OrderByDescending(x => x.id).First().id + 1;
-            } 
+            }
             model.id = nextId;
             prizes.Add(model);
             prizes.SaveToPrizeFile(PrizesFile);
@@ -65,7 +65,8 @@ namespace TrackerLibrary.DataAccess
 
         public List<TeamModel> GetTeam_All()
         {
-            throw new NotImplementedException();
+            return TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
+
         }
     }
 }
