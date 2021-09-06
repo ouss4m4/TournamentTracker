@@ -115,7 +115,7 @@ namespace TrackerUI
             tm.EntryFee = fee;
             tm.Prizes = selectedPrizes;
             tm.EnteredTeams = selectedTeams;
-
+            TournamentLogic.CreateRound(tm);
             GlobalConfig.Connection.CreateTournament(tm);
             // create tournmanet entry
 
