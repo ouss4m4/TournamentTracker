@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TrackerLibrary;
 using TrackerLibrary.Models;
 
 namespace TrackerUI
@@ -73,17 +74,36 @@ namespace TrackerUI
             {
                 if (matchups.First().MatchupRound == round)
                 {
-                    selectedMatchups = matchups;
+                    if (UnplayedOnlyCheckbox.Checked)
+                    {
+                        selectedMatchups = matchups.Where(mu => mu.Winner == null).ToList();
+                    }
+                    else
+                    {
+                        selectedMatchups = matchups;
+                    }
                 }
             }
             wireUpMatchupLists();
+            DisplayMatchupInfo();
         }
 
+        private void DisplayMatchupInfo()
+        {
+            bool isVisible = selectedMatchups.Count > 0;
+            teamOnelabel.Visible = isVisible;
+            teamOneScoreLabel.Visible = isVisible;
+            teamOneScoreValue.Visible = isVisible;
+            teamTwoLabel.Visible = isVisible;
+            teamTwoScoreLabel.Visible = isVisible;
+            teamTwoScoreValue.Visible = isVisible;
+            scoreButton.Visible = isVisible;
+        }
         private void loadMatchup()
         {
 
             MatchupModel m = (MatchupModel)matchupListbox.SelectedItem;
-            if(m == null)
+            if (m == null)
             {
                 return;
             }
@@ -111,7 +131,7 @@ namespace TrackerUI
                 {
                     if (m.Entries[1].TeamCompeting != null)
                     {
-                        
+
                         teamTwoLabel.Text = m.Entries[1].TeamCompeting.TeamName;
                         teamTwoScoreValue.Text = m.Entries[1].Score.ToString();
                     }
@@ -127,6 +147,93 @@ namespace TrackerUI
         private void matchupListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadMatchup();
+        }
+
+        private void UnplayedOnlyCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadMatchups();
+        }
+
+        private void scoreButton_Click(object sender, EventArgs e)
+        {
+            MatchupModel m = (MatchupModel)matchupListbox.SelectedItem;
+            double teamOneScore = 0;
+            double teamTwoScore = 0;
+            for (int i = 0; i < m.Entries.Count; i++)
+            {
+                if (i == 0)
+                {
+                    if (m.Entries[0].TeamCompeting != null)
+                    {
+                        teamOnelabel.Text = m.Entries[0].TeamCompeting.TeamName;
+
+
+                        if (double.TryParse(teamOneScoreValue.Text, out teamOneScore))
+                        {
+                            m.Entries[0].Score = teamOneScore;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid Score for team 1.");
+                            return;
+                        }
+                    }
+                }
+
+                if (i == 1)
+                {
+                    if (m.Entries[1].TeamCompeting != null)
+                    {
+                        if (double.TryParse(teamTwoScoreValue.Text, out teamTwoScore))
+                        {
+                            m.Entries[1].Score = teamTwoScore;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid Score for team 2.");
+                            return;
+                        }
+                    }
+
+                }
+            }
+
+            if (teamOneScore > teamTwoScore) // team A is the winner
+            {
+                m.Winner = m.Entries[0].TeamCompeting;
+            }
+            else if (teamTwoScore > teamOneScore)
+            {
+                m.Winner = m.Entries[1].TeamCompeting;
+            }
+            else
+            {
+                MessageBox.Show("Tie games not handled yet");
+
+            }
+
+            foreach (List<MatchupModel> round in tournament.Rounds)
+            {
+                foreach (MatchupModel rm in round)
+                {
+                    foreach (MatchupEntryModel me in rm.Entries)
+                    {
+                        if (me.ParentMatchup != null)
+                        {
+                            if (me.ParentMatchup.id == m.id)
+                            {
+                                me.TeamCompeting = m.Winner;
+                                GlobalConfig.Connection.UpdateMatchup(rm);
+
+                            } 
+                        }
+                    }
+                }
+            }
+            LoadMatchups();
+
+            GlobalConfig.Connection.UpdateMatchup(m);
+
         }
     }
 }

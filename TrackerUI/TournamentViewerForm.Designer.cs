@@ -100,6 +100,7 @@ namespace TrackerUI
             this.UnplayedOnlyCheckbox.TabIndex = 4;
             this.UnplayedOnlyCheckbox.Text = "Unplayed Only";
             this.UnplayedOnlyCheckbox.UseVisualStyleBackColor = true;
+            this.UnplayedOnlyCheckbox.CheckedChanged += new System.EventHandler(this.UnplayedOnlyCheckbox_CheckedChanged);
             // 
             // matchupListbox
             // 
@@ -195,6 +196,7 @@ namespace TrackerUI
             this.scoreButton.TabIndex = 13;
             this.scoreButton.Text = "Score";
             this.scoreButton.UseVisualStyleBackColor = true;
+            this.scoreButton.Click += new System.EventHandler(this.scoreButton_Click);
             // 
             // TournamentViewerForm
             // 
