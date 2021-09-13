@@ -13,7 +13,7 @@ namespace TrackerLibrary.DataAccess
     public class SqlConnector : IDataConnection
     {
         public string db = "Tournaments";
-        public PersonModel CreatePerson(PersonModel model)
+        public void CreatePerson(PersonModel model)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace TrackerLibrary.DataAccess
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 connection.Execute("dbo.spPeople_Insert", p, commandType: CommandType.StoredProcedure);
                 model.id = p.Get<int>("@id");
-                return model;
+                // return model;
             }
             catch (Exception)
             {
@@ -34,7 +34,7 @@ namespace TrackerLibrary.DataAccess
             }
         }
 
-        public PrizeModel CreatePrize(PrizeModel model)
+        public void CreatePrize(PrizeModel model)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace TrackerLibrary.DataAccess
 
                 connection.Execute("spPrizes_Insert", p, commandType: CommandType.StoredProcedure);
                 model.id = p.Get<int>("@id");
-                return model;
+                // return model;
             }
             catch (Exception e)
             {
@@ -60,7 +60,7 @@ namespace TrackerLibrary.DataAccess
 
         }
 
-        public TeamModel CreateTeam(TeamModel model)
+        public void CreateTeam(TeamModel model)
         {
             using IDbConnection connection = new SqlConnection(GlobalConfig.CnnString(db));
             var p = new DynamicParameters();
@@ -78,7 +78,7 @@ namespace TrackerLibrary.DataAccess
 
             }
 
-            return model;
+            // return model;
 
         }
 

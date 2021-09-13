@@ -51,7 +51,9 @@ namespace TrackerUI
             member.LastName = lastNameValue.Text;
             member.EmailAddress = emailValue.Text;
             member.CellPhoneNumber = cellPhoneValue.Text;
+
             GlobalConfig.Connection.CreatePerson(member);
+
             MessageBox.Show($"{member.FirstName} added");
             selectedTeamMembers.Add(member);
             firstNameValue.Text = "";
