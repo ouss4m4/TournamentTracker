@@ -156,6 +156,7 @@ namespace TrackerUI
 
         private void scoreButton_Click(object sender, EventArgs e)
         {
+
             MatchupModel m = (MatchupModel)matchupListbox.SelectedItem;
             double teamOneScore = 0;
             double teamTwoScore = 0;
@@ -198,41 +199,9 @@ namespace TrackerUI
                 }
             }
 
-            if (teamOneScore > teamTwoScore) // team A is the winner
-            {
-                m.Winner = m.Entries[0].TeamCompeting;
-            }
-            else if (teamTwoScore > teamOneScore)
-            {
-                m.Winner = m.Entries[1].TeamCompeting;
-            }
-            else
-            {
-                MessageBox.Show("Tie games not handled yet");
-
-            }
-
-            foreach (List<MatchupModel> round in tournament.Rounds)
-            {
-                foreach (MatchupModel rm in round)
-                {
-                    foreach (MatchupEntryModel me in rm.Entries)
-                    {
-                        if (me.ParentMatchup != null)
-                        {
-                            if (me.ParentMatchup.id == m.id)
-                            {
-                                me.TeamCompeting = m.Winner;
-                                GlobalConfig.Connection.UpdateMatchup(rm);
-
-                            } 
-                        }
-                    }
-                }
-            }
+            
+            TournamentLogic.UpdateTournamentsResults(tournament);
             LoadMatchups();
-
-            GlobalConfig.Connection.UpdateMatchup(m);
 
         }
     }
