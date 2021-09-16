@@ -54,7 +54,6 @@ namespace TrackerUI
 
             GlobalConfig.Connection.CreatePerson(member);
 
-            MessageBox.Show($"{member.FirstName} added");
             selectedTeamMembers.Add(member);
             firstNameValue.Text = "";
             lastNameValue.Text = "";
