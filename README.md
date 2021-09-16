@@ -1,5 +1,12 @@
 # TournamentTracker
 
+
+
+https://user-images.githubusercontent.com/24247070/133591112-e00ed3a1-1f55-4bfe-af70-eec55b2c5d79.mp4
+
+
+
+
 Learning C# by building a Tournament Tracker that persist on SqlServer or TextFiles as required.
 
 ### BackEnd: TrackerLibrary
