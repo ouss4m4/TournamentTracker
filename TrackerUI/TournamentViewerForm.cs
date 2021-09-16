@@ -21,8 +21,17 @@ namespace TrackerUI
         {
             InitializeComponent();
             tournament = tournamentModel;
+
+            tournament.OnTournamentComplete += Tournament_OnTournamentComplete;
             LoadFormDate();
             LoadRounds();
+
+
+        }
+
+        private void Tournament_OnTournamentComplete(object sender, DateTime e)
+        {
+            this.Close();
         }
 
         private void LoadFormDate()
@@ -153,31 +162,41 @@ namespace TrackerUI
         {
             LoadMatchups();
         }
+        private string ValidateData()
+        {
+            bool scoreOneValid = double.TryParse(teamOneScoreValue.Text, out double teamOneScore);
+            bool scoreTwoValid = double.TryParse(teamTwoScoreValue.Text, out double teamTwoScore);
 
+            if (!scoreOneValid || !scoreTwoValid)
+            {
+                return "Invalid Score";
+            }
+
+            if (teamOneScore == 0 && teamTwoScore == 0)
+            {
+                return "Please enter a score";
+            }
+            if (teamOneScore == teamTwoScore)
+            {
+                return "Tie games not allowed";
+            }
+            return "";
+        }
         private void scoreButton_Click(object sender, EventArgs e)
         {
-
+            if (ValidateData().Length > 0)
+            {
+                MessageBox.Show($"input error: {ValidateData()}");
+                return;
+            }
             MatchupModel m = (MatchupModel)matchupListbox.SelectedItem;
-            double teamOneScore = 0;
-            double teamTwoScore = 0;
             for (int i = 0; i < m.Entries.Count; i++)
             {
                 if (i == 0)
                 {
                     if (m.Entries[0].TeamCompeting != null)
                     {
-                        teamOnelabel.Text = m.Entries[0].TeamCompeting.TeamName;
-
-
-                        if (double.TryParse(teamOneScoreValue.Text, out teamOneScore))
-                        {
-                            m.Entries[0].Score = teamOneScore;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid Score for team 1.");
-                            return;
-                        }
+                        m.Entries[0].Score = double.Parse(teamOneScoreValue.Text);
                     }
                 }
 
@@ -185,23 +204,25 @@ namespace TrackerUI
                 {
                     if (m.Entries[1].TeamCompeting != null)
                     {
-                        if (double.TryParse(teamTwoScoreValue.Text, out teamTwoScore))
-                        {
-                            m.Entries[1].Score = teamTwoScore;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid Score for team 2.");
-                            return;
-                        }
+                        m.Entries[1].Score = double.Parse(teamTwoScoreValue.Text);
                     }
 
                 }
             }
 
-            
-            TournamentLogic.UpdateTournamentsResults(tournament);
-            LoadMatchups();
+            try
+            {
+
+                TournamentLogic.UpdateTournamentsResults(tournament);
+                LoadMatchups();
+
+            }
+            catch (Exception f)
+            {
+                MessageBox.Show(f.Message);
+                return;
+            }
+
 
         }
     }

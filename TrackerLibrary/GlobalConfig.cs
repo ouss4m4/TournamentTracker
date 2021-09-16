@@ -16,6 +16,7 @@ namespace TrackerLibrary
         public const string TournamentFile = "TournamentModels.csv"; 
         public const string MatchupFile = "MatchupModels.csv";
         public const string MatchupEntryFile = "MatchupEntryModels.csv";
+        
         public static IDataConnection Connection { get; private set; }
 
 
@@ -38,6 +39,11 @@ namespace TrackerLibrary
         public static string CnnString(string name)
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+        }
+
+        public static string AppKeyLookup(string key)
+        {
+            return ConfigurationManager.AppSettings.Get(key);
         }
 
     }
